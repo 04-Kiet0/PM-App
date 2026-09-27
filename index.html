@@ -2,262 +2,1591 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Portal App V1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#4355a5">
+<title>Portal Minds</title>
 
 <style>
-* {
-    box-sizing: border-box;
+:root{
+  --pm-bg:#eef0f4;
+  --pm-surface:#ffffff;
+  --pm-surface-soft:#f7f8fb;
+
+  --pm-primary:#4355a5;
+  --pm-primary-dark:#34458e;
+  --pm-primary-soft:#e9ecfb;
+
+  --pm-accent:#7567b8;
+  --pm-accent-soft:#efedfa;
+
+  --pm-text:#252936;
+  --pm-text-soft:#697080;
+
+  --pm-border:#e0e3ea;
+
+  --pm-success:#4f8b70;
+  --pm-warning:#b18445;
+  --pm-danger:#b45d63;
+
+  --pm-shadow:0 5px 18px rgba(42,48,70,.07);
+  --pm-shadow-hover:0 9px 25px rgba(42,48,70,.11);
 }
 
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: #f4f4f4;
-    color: #111;
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
 }
 
-/* SIDEBAR */
-
-.app {
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
+html{
+  min-height:100%;
 }
 
-.sidebar {
-    width: 64px;
-    background: #151515;
-    color: white;
-    padding: 12px 8px;
-    transition: width 0.2s;
-    overflow: hidden;
+body{
+  margin:0;
+  min-height:100vh;
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  color:var(--pm-text);
+
+  background:
+    radial-gradient(
+      circle at 15% 0%,
+      rgba(117,103,184,.08),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(67,85,165,.07),
+      transparent 30%
+    ),
+    var(--pm-bg);
+
+  overflow-x:hidden;
 }
 
-.sidebar.open {
-    width: 240px;
+button,
+input,
+textarea,
+select{
+  font:inherit;
 }
 
-.toggle {
-    width: 48px;
-    height: 40px;
-    border: 0;
-    border-radius: 8px;
-    background: #333;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
+button{
+  cursor:pointer;
+  -webkit-appearance:none;
 }
 
-.logo {
-    width: 44px;
-    height: 44px;
-    border: 3px solid white;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    margin: 16px auto;
-    font-weight: 800;
+button:active{
+  transform:scale(.97);
 }
 
-.song {
-    padding: 11px;
-    border-radius: 8px;
-    margin: 5px 0;
-    cursor: pointer;
-    white-space: nowrap;
+::selection{
+  background:#dfe4fb;
+  color:var(--pm-primary-dark);
 }
 
-.song:hover {
-    background: #292929;
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:1000;
+
+  height:66px;
+
+  display:flex;
+  align-items:center;
+  gap:8px;
+
+  padding:8px 13px;
+
+  background:rgba(255,255,255,.92);
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  border-bottom:1px solid rgba(224,227,234,.9);
+
+  box-shadow:0 2px 12px rgba(40,45,65,.05);
 }
 
-.song.active {
-    background: white;
-    color: black;
+.topbar-title{
+  flex:1;
+
+  font-size:20px;
+  font-weight:800;
+
+  letter-spacing:-.3px;
+
+  color:var(--pm-primary-dark);
 }
 
-/* MAIN */
+.topbar button{
+  min-height:44px;
 
-.main {
-    flex: 1;
-    min-width: 0;
+  border:1px solid var(--pm-border);
+
+  background:rgba(247,248,251,.95);
+
+  color:var(--pm-text);
+
+  border-radius:12px;
+
+  padding:0 13px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  gap:6px;
+
+  font-weight:700;
 }
 
-.topbar {
-    height: 64px;
-    background: white;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 18px;
+.topbar button:hover{
+  background:#fff;
+  box-shadow:0 3px 10px rgba(40,45,65,.08);
 }
 
-.title {
-    font-size: 20px;
-    font-weight: 700;
+.menu-btn{
+  width:44px;
+  padding:0!important;
+  font-size:21px;
+  color:var(--pm-primary)!important;
 }
 
-.buttons {
-    display: flex;
-    gap: 8px;
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main{
+  width:100%;
+  max-width:1160px;
+
+  margin:0 auto;
+
+  padding:22px 15px 55px;
 }
 
-button {
-    border: 1px solid #ccc;
-    background: white;
-    border-radius: 8px;
-    padding: 8px 12px;
-    cursor: pointer;
+.view{
+  display:none;
 }
 
-button:hover {
-    background: #eee;
+.view.active{
+  display:block;
 }
 
-/* CONTENT */
+.page-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
 
-.content {
-    height: calc(100vh - 64px);
-    overflow: auto;
-    padding: 20px;
-    max-width: 950px;
-    margin: auto;
+  gap:15px;
+
+  margin:4px 0 20px;
 }
 
-.section {
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 13px;
-    margin-bottom: 14px;
-    overflow: hidden;
+.page-title{
+  margin:0;
+
+  font-size:29px;
+  line-height:1.12;
+
+  letter-spacing:-.6px;
 }
 
-.section-header {
-    padding: 14px;
-    border-bottom: 1px solid #eee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.page-subtitle{
+  margin:6px 0 0;
+
+  color:var(--pm-text-soft);
+
+  font-size:14px;
+  line-height:1.45;
 }
 
-.section-title {
-    font-weight: 700;
+
+/* =========================================================
+   GENERIC CARDS
+========================================================= */
+
+.card{
+  background:rgba(255,255,255,.96);
+
+  border:1px solid var(--pm-border);
+
+  border-radius:19px;
+
+  padding:17px;
+
+  margin-bottom:16px;
+
+  box-shadow:var(--pm-shadow);
+
+  transition:
+    box-shadow .2s ease,
+    transform .2s ease;
 }
 
-.task {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 10px 14px;
-    border-bottom: 1px solid #eee;
+.card:hover{
+  box-shadow:var(--pm-shadow-hover);
 }
 
-.task:last-child {
-    border-bottom: 0;
+.section-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:14px;
 }
 
-.task span.completed {
-    text-decoration: line-through;
-    color: #999;
+.section-title h2,
+.section-title h3{
+  margin:0;
+
+  font-size:18px;
+  letter-spacing:-.2px;
 }
 
-.task-actions {
-    margin-left: auto;
+.small-btn{
+  border:1px solid #d9def4;
+
+  background:var(--pm-primary-soft);
+
+  color:var(--pm-primary-dark);
+
+  border-radius:10px;
+
+  padding:8px 11px;
+
+  font-weight:750;
 }
 
-.task-actions button {
-    border: 0;
-    background: transparent;
-    padding: 3px 6px;
+.primary-btn{
+  border:0;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--pm-primary),
+      var(--pm-accent)
+    );
+
+  color:#fff;
+
+  border-radius:12px;
+
+  padding:11px 16px;
+
+  font-weight:750;
+
+  box-shadow:0 5px 12px rgba(67,85,165,.18);
 }
 
-.attachments {
-    padding: 13px 14px;
-    background: #fafafa;
-    border-top: 1px dashed #ddd;
+.secondary-btn{
+  border:1px solid var(--pm-border);
+
+  background:#f4f5f8;
+
+  color:#4d5361;
+
+  border-radius:10px;
+
+  padding:9px 12px;
+
+  font-weight:700;
 }
 
-.attachment {
-    display: inline-block;
-    background: #e9e9e9;
-    padding: 6px 9px;
-    border-radius: 15px;
-    font-size: 13px;
-    margin: 4px;
+.danger-btn{
+  border:1px solid #f0d4d6;
+
+  background:#fceff0;
+
+  color:var(--pm-danger);
+
+  border-radius:10px;
+
+  padding:9px 12px;
+
+  font-weight:700;
 }
 
-/* CALENDAR */
-
-.calendar {
-    position: fixed;
-    right: 20px;
-    top: 76px;
-    width: 290px;
-    background: white;
-    border: 1px solid #ccc;
-    border-radius: 12px;
-    padding: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.15);
-    display: none;
-    z-index: 10;
+.empty{
+  color:var(--pm-text-soft);
+  text-align:center;
+  padding:22px 8px;
 }
 
-.calendar.visible {
-    display: block;
+
+/* =========================================================
+   HOME HERO
+========================================================= */
+
+.home-hero{
+  position:relative;
+  overflow:hidden;
+
+  color:#fff;
+
+  border-radius:22px;
+
+  padding:22px;
+
+  margin-bottom:17px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #4355a5 0%,
+      #5968b5 48%,
+      #7567b8 100%
+    );
+
+  box-shadow:0 10px 28px rgba(67,85,165,.19);
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
+.home-hero::before{
+  content:"";
+
+  position:absolute;
+
+  width:210px;
+  height:210px;
+
+  right:-85px;
+  top:-100px;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.08);
 }
 
-.calendar-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap: 3px;
+.home-hero::after{
+  content:"";
+
+  position:absolute;
+
+  width:140px;
+  height:140px;
+
+  left:-80px;
+  bottom:-90px;
+
+  border-radius:50%;
+
+  background:rgba(255,255,255,.06);
 }
 
-.calendar-grid div {
-    text-align: center;
-    padding: 7px;
-    font-size: 12px;
+.home-hero > *{
+  position:relative;
+  z-index:1;
 }
 
-.today {
-    background: black;
-    color: white;
-    border-radius: 7px;
+.home-hero h1{
+  margin:0;
+
+  font-size:29px;
+  line-height:1.15;
+
+  letter-spacing:-.7px;
 }
 
-/* MOBILE */
+.home-hero p{
+  margin:7px 0 0;
 
-@media(max-width:700px) {
+  opacity:.88;
 
-    .sidebar.open {
-        width: 210px;
-    }
+  font-size:14px;
+}
 
-    .content {
-        padding: 12px;
-    }
+.quick-actions{
+  display:grid;
 
-    .topbar {
-        padding: 0 10px;
-    }
+  grid-template-columns:repeat(2,1fr);
 
-    .buttons button {
-        font-size: 0;
-    }
+  gap:9px;
 
-    .buttons button:first-child {
-        font-size: 16px;
-    }
+  margin-top:18px;
+}
 
+.quick-action{
+  border:1px solid rgba(255,255,255,.16);
+
+  background:rgba(255,255,255,.13);
+
+  color:#fff;
+
+  border-radius:13px;
+
+  padding:12px 10px;
+
+  font-weight:700;
+
+  text-align:left;
+
+  backdrop-filter:blur(4px);
+}
+
+.quick-action:hover{
+  background:rgba(255,255,255,.2);
+}
+
+
+/* =========================================================
+   DASHBOARD STATS
+========================================================= */
+
+.stats-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:9px;
+
+  margin-bottom:16px;
+}
+
+.stat-card{
+  background:
+    rgba(255,255,255,.96);
+
+  border:1px solid var(--pm-border);
+
+  border-radius:16px;
+
+  padding:14px 12px;
+
+  box-shadow:var(--pm-shadow);
+}
+
+.stat-icon{
+  font-size:19px;
+  margin-bottom:6px;
+}
+
+.stat-number{
+  font-size:23px;
+  font-weight:850;
+
+  color:var(--pm-primary-dark);
+
+  line-height:1;
+}
+
+.stat-label{
+  margin-top:5px;
+
+  color:var(--pm-text-soft);
+
+  font-size:12px;
+
+  line-height:1.25;
+}
+
+
+/* =========================================================
+   HOME GRID
+========================================================= */
+
+.home-grid{
+  display:grid;
+
+  grid-template-columns:1fr;
+
+  gap:0;
+}
+
+
+/* =========================================================
+   NOTE IMPORTANTI
+========================================================= */
+
+.important-note{
+  border:1px solid #e9dfc5;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffdf6,
+      #faf7ee
+    );
+
+  border-radius:14px;
+
+  padding:13px;
+
+  margin-bottom:9px;
+
+  box-shadow:0 2px 7px rgba(80,70,40,.035);
+}
+
+.important-note:last-child{
+  margin-bottom:0;
+}
+
+.important-note-title{
+  font-weight:800;
+  color:#4e4a3f;
+}
+
+.important-note-text{
+  margin-top:6px;
+
+  color:#68645a;
+
+  white-space:pre-wrap;
+
+  line-height:1.45;
+}
+
+.important-note-actions{
+  display:flex;
+  gap:6px;
+  margin-top:10px;
+}
+
+.note-mini-btn{
+  border:1px solid #e5e0d5;
+
+  background:#fff;
+
+  color:#5d594f;
+
+  border-radius:8px;
+
+  padding:6px 9px;
+
+  font-size:13px;
+}
+
+
+/* =========================================================
+   SCADENZE
+========================================================= */
+
+.deadline-row{
+  display:flex;
+
+  align-items:center;
+
+  gap:11px;
+
+  padding:11px 0;
+
+  border-bottom:1px solid #edf0f4;
+}
+
+.deadline-row:last-child{
+  border-bottom:0;
+}
+
+.deadline-date{
+  width:55px;
+  min-width:55px;
+
+  text-align:center;
+
+  border-radius:11px;
+
+  background:var(--pm-primary-soft);
+
+  color:var(--pm-primary-dark);
+
+  padding:7px 4px;
+
+  font-size:13px;
+
+  line-height:1.25;
+
+  font-weight:800;
+}
+
+.deadline-info{
+  flex:1;
+  min-width:0;
+}
+
+.deadline-title{
+  font-weight:750;
+
+  overflow:hidden;
+
+  text-overflow:ellipsis;
+
+  white-space:nowrap;
+}
+
+.deadline-meta{
+  color:var(--pm-text-soft);
+
+  font-size:13px;
+
+  margin-top:3px;
+}
+
+
+/* =========================================================
+   CALENDARIO
+========================================================= */
+
+.calendar-header{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:10px;
+
+  margin-bottom:12px;
+}
+
+.calendar-header button{
+  border:1px solid var(--pm-border);
+
+  background:#f5f6f9;
+
+  color:var(--pm-primary);
+
+  border-radius:10px;
+
+  width:40px;
+  height:40px;
+
+  font-size:19px;
+
+  font-weight:700;
+}
+
+.calendar-title{
+  font-weight:800;
+
+  font-size:19px;
+
+  text-transform:capitalize;
+
+  color:var(--pm-text);
+}
+
+.calendar-week{
+  display:grid;
+
+  grid-template-columns:repeat(7,1fr);
+
+  gap:4px;
+
+  margin-bottom:4px;
+}
+
+.calendar-week div{
+  text-align:center;
+
+  font-size:11px;
+
+  color:var(--pm-text-soft);
+
+  padding:5px 0;
+
+  font-weight:750;
+}
+
+.calendar-grid{
+  display:grid;
+
+  grid-template-columns:repeat(7,1fr);
+
+  gap:4px;
+}
+
+.calendar-day{
+  min-height:55px;
+
+  border:1px solid #e5e8ee;
+
+  background:#fff;
+
+  color:var(--pm-text);
+
+  border-radius:10px;
+
+  padding:5px;
+
+  position:relative;
+
+  text-align:left;
+}
+
+.calendar-day:hover{
+  background:#f7f8fc;
+}
+
+.calendar-day.empty{
+  background:transparent;
+  border-color:transparent;
+}
+
+.calendar-day.today{
+  border:2px solid var(--pm-primary);
+
+  color:var(--pm-primary-dark);
+}
+
+.calendar-day.selected{
+  background:var(--pm-primary-soft);
+
+  border-color:#aeb8e5;
+}
+
+.calendar-day.has-event::after{
+  content:"";
+
+  position:absolute;
+
+  width:7px;
+  height:7px;
+
+  border-radius:50%;
+
+  background:var(--pm-accent);
+
+  bottom:6px;
+  left:50%;
+
+  transform:translateX(-50%);
+}
+
+.day-number{
+  font-weight:750;
+  font-size:13px;
+}
+
+
+/* =========================================================
+   EVENTI
+========================================================= */
+
+.event-card{
+  border:1px solid var(--pm-border);
+
+  border-radius:15px;
+
+  overflow:hidden;
+
+  background:#fff;
+
+  margin-bottom:12px;
+
+  box-shadow:0 2px 8px rgba(40,45,65,.04);
+}
+
+.event-card:last-child{
+  margin-bottom:0;
+}
+
+.event-cover{
+  width:100%;
+
+  max-height:240px;
+
+  object-fit:cover;
+
+  display:block;
+}
+
+.event-placeholder{
+  height:85px;
+
+  display:flex;
+
+  align-items:center;
+
+  justify-content:center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f1f2f7,
+      #e9ebf3
+    );
+
+  color:var(--pm-primary);
+
+  font-size:31px;
+}
+
+.event-body{
+  padding:14px;
+}
+
+.event-title{
+  font-size:18px;
+
+  font-weight:800;
+
+  margin-bottom:6px;
+
+  letter-spacing:-.2px;
+}
+
+.event-meta{
+  color:var(--pm-text-soft);
+
+  font-size:14px;
+
+  line-height:1.5;
+}
+
+.event-description{
+  margin-top:9px;
+
+  color:#505563;
+
+  white-space:pre-wrap;
+
+  line-height:1.45;
+}
+
+.event-actions{
+  display:flex;
+
+  gap:7px;
+
+  margin-top:12px;
+
+  flex-wrap:wrap;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+  position:fixed;
+
+  top:0;
+  left:0;
+  bottom:0;
+
+  width:285px;
+  max-width:86vw;
+
+  background:rgba(255,255,255,.98);
+
+  z-index:2000;
+
+  box-shadow:8px 0 30px rgba(30,35,55,.16);
+
+  transform:translateX(-105%);
+
+  transition:transform .25s ease;
+
+  overflow-y:auto;
+
+  padding:18px 12px 30px;
+}
+
+.sidebar.open{
+  transform:translateX(0);
+}
+
+.overlay{
+  position:fixed;
+
+  inset:0;
+
+  background:rgba(24,28,42,.38);
+
+  z-index:1500;
+
+  display:none;
+
+  backdrop-filter:blur(2px);
+}
+
+.overlay.show{
+  display:block;
+}
+
+.sidebar-header{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  margin-bottom:15px;
+}
+
+.sidebar-header h2{
+  margin:0;
+
+  font-size:20px;
+
+  color:var(--pm-primary-dark);
+}
+
+.close-sidebar{
+  border:1px solid var(--pm-border);
+
+  background:#f4f5f8;
+
+  color:var(--pm-primary);
+
+  width:40px;
+  height:40px;
+
+  border-radius:10px;
+
+  font-size:19px;
+}
+
+.sidebar-home,
+.sidebar-calendar{
+  width:100%;
+
+  border:1px solid transparent;
+
+  background:#f5f6f9;
+
+  color:#454b59;
+
+  border-radius:12px;
+
+  padding:12px;
+
+  margin-bottom:8px;
+
+  text-align:left;
+
+  font-weight:750;
+}
+
+.sidebar-home.active,
+.sidebar-calendar.active{
+  background:var(--pm-primary-soft);
+
+  color:var(--pm-primary-dark);
+
+  border-color:#d6dcf4;
+}
+
+.sidebar-divider{
+  height:1px;
+
+  background:var(--pm-border);
+
+  margin:15px 0;
+}
+
+.song-add{
+  width:100%;
+
+  border:0;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--pm-primary),
+      var(--pm-accent)
+    );
+
+  color:#fff;
+
+  border-radius:12px;
+
+  padding:11px;
+
+  font-weight:750;
+
+  margin-bottom:12px;
+
+  box-shadow:0 4px 10px rgba(67,85,165,.15);
+}
+
+.song-row{
+  display:flex;
+
+  align-items:center;
+
+  gap:5px;
+
+  margin-bottom:7px;
+}
+
+.song-select{
+  flex:1;
+
+  border:1px solid var(--pm-border);
+
+  background:#f8f9fb;
+
+  color:var(--pm-text);
+
+  border-radius:11px;
+
+  padding:11px;
+
+  text-align:left;
+
+  overflow:hidden;
+
+  white-space:nowrap;
+
+  text-overflow:ellipsis;
+}
+
+.song-select.selected{
+  background:var(--pm-primary-soft);
+
+  border-color:#bfc8ea;
+
+  color:var(--pm-primary-dark);
+
+  font-weight:750;
+}
+
+.song-more{
+  width:40px;
+  height:40px;
+
+  border:1px solid var(--pm-border);
+
+  border-radius:10px;
+
+  background:#f4f5f8;
+
+  color:#535967;
+
+  font-size:19px;
+}
+
+
+/* =========================================================
+   BRANO
+========================================================= */
+
+.song-header{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-bottom:15px;
+}
+
+.song-header h1{
+  margin:0;
+
+  font-size:27px;
+
+  letter-spacing:-.5px;
+}
+
+
+/* =========================================================
+   NOTE BRANO
+========================================================= */
+
+.notes{
+  width:100%;
+
+  min-height:130px;
+
+  resize:vertical;
+
+  border:1px solid var(--pm-border);
+
+  border-radius:12px;
+
+  padding:12px;
+
+  background:#fbfbfc;
+
+  color:var(--pm-text);
+
+  outline:none;
+
+  line-height:1.5;
+}
+
+.notes:focus{
+  border-color:#aab5e3;
+
+  box-shadow:
+    0 0 0 3px rgba(67,85,165,.08);
+}
+
+
+/* =========================================================
+   CHECKLIST
+========================================================= */
+
+.check-section{
+  border:1px solid var(--pm-border);
+
+  border-radius:15px;
+
+  margin-bottom:13px;
+
+  overflow:hidden;
+
+  background:#fff;
+}
+
+.check-section-header{
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+
+  padding:11px;
+
+  background:#f7f8fb;
+
+  border-bottom:1px solid #edf0f4;
+}
+
+.check-section-name{
+  flex:1;
+
+  font-weight:750;
+
+  color:#414754;
+}
+
+.task-list{
+  padding:5px 10px 10px;
+}
+
+.task-row{
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+
+  padding:9px 0;
+
+  border-bottom:1px solid #f0f1f4;
+}
+
+.task-row:last-child{
+  border-bottom:0;
+}
+
+.task-check{
+  width:21px;
+  height:21px;
+
+  accent-color:var(--pm-primary);
+
+  flex:none;
+}
+
+.task-text{
+  flex:1;
+
+  min-width:0;
+
+  line-height:1.4;
+
+  word-break:break-word;
+}
+
+.task-text.done{
+  text-decoration:line-through;
+
+  color:#a0a5af;
+}
+
+.task-actions{
+  display:flex;
+  gap:4px;
+}
+
+.add-task{
+  border:1px solid #d9def4;
+
+  background:var(--pm-primary-soft);
+
+  color:var(--pm-primary-dark);
+
+  border-radius:9px;
+
+  padding:7px 10px;
+
+  font-weight:650;
+}
+
+.icon-btn{
+  border:1px solid var(--pm-border);
+
+  background:#f4f5f8;
+
+  color:#545a67;
+
+  border-radius:9px;
+
+  min-width:38px;
+  min-height:36px;
+}
+
+.icon-btn.danger{
+  background:#fceff0;
+
+  border-color:#f0d4d6;
+
+  color:var(--pm-danger);
+}
+
+
+/* =========================================================
+   ALLEGATI
+========================================================= */
+
+.attachment-list{
+  display:flex;
+
+  flex-wrap:wrap;
+
+  gap:8px;
+
+  margin-top:10px;
+}
+
+.attachment{
+  background:#f3f4f7;
+
+  border:1px solid #e3e5ea;
+
+  color:#505562;
+
+  border-radius:10px;
+
+  padding:8px 10px;
+
+  display:flex;
+
+  align-items:center;
+
+  gap:7px;
+}
+
+.attachment button{
+  border:0;
+
+  background:transparent;
+
+  color:var(--pm-danger);
+}
+
+.file-label{
+  display:inline-block;
+
+  background:#f3f4f7;
+
+  border:1px solid var(--pm-border);
+
+  color:#4f5562;
+
+  border-radius:10px;
+
+  padding:10px 12px;
+
+  font-weight:650;
+
+  cursor:pointer;
+}
+
+.file-label input{
+  display:none;
+}
+
+
+/* =========================================================
+   MODALI
+========================================================= */
+
+.modal{
+  position:fixed;
+
+  inset:0;
+
+  z-index:3000;
+
+  background:rgba(25,29,43,.48);
+
+  display:none;
+
+  align-items:flex-end;
+
+  justify-content:center;
+
+  padding:0;
+
+  backdrop-filter:blur(3px);
+}
+
+.modal.show{
+  display:flex;
+}
+
+.modal-box{
+  width:100%;
+
+  max-width:650px;
+
+  max-height:92vh;
+
+  overflow-y:auto;
+
+  background:#fff;
+
+  border-radius:22px 22px 0 0;
+
+  padding:19px;
+
+  box-shadow:
+    0 -5px 30px rgba(25,29,43,.15);
+}
+
+.modal-title{
+  display:flex;
+
+  justify-content:space-between;
+
+  align-items:center;
+
+  gap:10px;
+
+  margin-bottom:15px;
+}
+
+.modal-title h2{
+  margin:0;
+
+  font-size:21px;
+
+  letter-spacing:-.3px;
+}
+
+.close-modal{
+  border:1px solid var(--pm-border);
+
+  background:#f4f5f8;
+
+  color:#555b68;
+
+  width:40px;
+  height:40px;
+
+  border-radius:10px;
+
+  font-size:19px;
+}
+
+.form-group{
+  margin-bottom:14px;
+}
+
+.form-group label{
+  display:block;
+
+  font-weight:750;
+
+  margin-bottom:6px;
+
+  color:#414653;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+
+  border:1px solid var(--pm-border);
+
+  border-radius:11px;
+
+  padding:11px;
+
+  background:#fbfbfc;
+
+  color:var(--pm-text);
+
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:#aab5e3;
+
+  box-shadow:
+    0 0 0 3px rgba(67,85,165,.08);
+}
+
+.form-group textarea{
+  min-height:100px;
+
+  resize:vertical;
+
+  line-height:1.45;
+}
+
+.modal-actions{
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+  margin-top:18px;
+}
+
+.cover-preview{
+  width:100%;
+
+  max-height:220px;
+
+  object-fit:cover;
+
+  border-radius:12px;
+
+  margin-top:8px;
+
+  display:none;
+
+  border:1px solid var(--pm-border);
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:800px){
+
+  .main{
+    padding:28px 20px 55px;
+  }
+
+  .home-grid{
+    grid-template-columns:1.08fr .92fr;
+
+    column-gap:16px;
+  }
+
+  .home-wide{
+    grid-column:1 / -1;
+  }
+
+  .modal{
+    align-items:center;
+
+    padding:20px;
+  }
+
+  .modal-box{
+    border-radius:20px;
+
+    box-shadow:
+      0 15px 50px rgba(25,29,43,.2);
+  }
+
+  .topbar{
+    padding-left:18px;
+    padding-right:18px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:799px){
+
+  .topbar button span{
+    display:none;
+  }
+
+  .topbar-title{
+    font-size:18px;
+  }
+
+  .page-title{
+    font-size:25px;
+  }
+
+  .calendar-day{
+    min-height:48px;
+  }
+
+  .card{
+    padding:15px;
+  }
+
+  .home-hero{
+    padding:19px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media(max-width:380px){
+
+  .main{
+    padding-left:10px;
+    padding-right:10px;
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr;
+  }
+
+  .calendar-grid{
+    gap:3px;
+  }
+
+  .calendar-day{
+    min-height:44px;
+    padding:4px;
+  }
+
+  .day-number{
+    font-size:12px;
+  }
+
+  .stats-grid{
+    gap:6px;
+  }
+
+  .stat-card{
+    padding:11px 8px;
+  }
 }
 </style>
 </head>
@@ -265,974 +1594,4177 @@ button:hover {
 
 <body>
 
-<div class="app">
 
-    <!-- SIDEBAR -->
+<!-- =======================================================
+     TOPBAR
+======================================================== -->
 
-    <aside class="sidebar" id="sidebar">
+<header class="topbar">
 
-        <button class="toggle" onclick="toggleSidebar()">
-            ☰
-        </button>
+  <button
+    class="menu-btn"
+    onclick="toggleSidebar()"
+    title="Apri menu">
+    ☰
+  </button>
 
-        <div class="logo">
-            PM
-        </div>
+  <div class="topbar-title">
+    Portal Minds
+  </div>
 
-        <div id="songs"></div>
+  <button
+    onclick="shareData()"
+    title="Condividi backup">
+    ⤴️
+    <span>Condividi</span>
+  </button>
 
-        <button onclick="addSong()">
-            ＋
-        </button>
+  <button
+    onclick="document.getElementById('importFile').click()"
+    title="Importa backup">
+    📥
+    <span>Importa</span>
+  </button>
 
-    </aside>
+  <input
+    id="importFile"
+    type="file"
+    accept=".json,application/json"
+    style="display:none"
+    onchange="handleImportFile(event)"
+  >
 
-
-    <!-- MAIN -->
-
-    <main class="main">
-
-        <header class="topbar">
-
-            <div class="title" id="title">
-                Portal App
-            </div>
-
-            <div class="buttons">
-
-                <button onclick="toggleCalendar()">
-                    📅
-                </button>
-
-                <button onclick="exportData()">
-                    Condividi aggiornamento
-                </button>
-
-                <button onclick="document.getElementById('fileInput').click()">
-                    Importa
-                </button>
-
-            </div>
-
-        </header>
+</header>
 
 
-        <section class="content" id="content"></section>
+<!-- =======================================================
+     SIDEBAR OVERLAY
+======================================================== -->
 
-    </main>
-
+<div
+  id="sidebarOverlay"
+  class="overlay"
+  onclick="closeSidebar()">
 </div>
 
 
-<!-- CALENDARIO -->
+<!-- =======================================================
+     SIDEBAR
+======================================================== -->
 
-<div class="calendar" id="calendar">
+<aside id="sidebar" class="sidebar">
 
-    <div class="calendar-header">
+  <div class="sidebar-header">
+    <h2>🧠 Portal Minds</h2>
 
-        <strong id="calendarTitle">
-            Calendario
-        </strong>
+    <button
+      class="close-sidebar"
+      onclick="closeSidebar()">
+      ×
+    </button>
+  </div>
 
-        <button onclick="toggleCalendar()">
-            ✕
-        </button>
+
+  <button
+    id="navHome"
+    class="sidebar-home active"
+    onclick="showView('homeView');closeSidebar();">
+    🏠 Home
+  </button>
+
+
+  <button
+    id="navCalendar"
+    class="sidebar-calendar"
+    onclick="showView('calendarView');closeSidebar();">
+    📅 Calendario
+  </button>
+
+
+  <div class="sidebar-divider"></div>
+
+
+  <button
+    class="song-add"
+    onclick="openSongModal();closeSidebar();">
+    ＋ Nuovo brano
+  </button>
+
+
+  <div id="songList"></div>
+
+</aside>
+
+
+<!-- =======================================================
+     MAIN
+======================================================== -->
+
+<main class="main">
+
+
+<!-- =======================================================
+     HOME VIEW
+======================================================== -->
+
+<section
+  id="homeView"
+  class="view active">
+
+
+  <!-- HERO -->
+
+  <div class="home-hero">
+
+    <h1>
+      🧠 Portal Minds
+    </h1>
+
+    <p id="homeDate">
+      Organizza eventi, attività e idee in un unico spazio.
+    </p>
+
+
+    <div class="quick-actions">
+
+      <button
+        class="quick-action"
+        onclick="openEventModal()">
+        ➕ Nuova scadenza
+      </button>
+
+      <button
+        class="quick-action"
+        onclick="openImportantNoteModal()">
+        ⭐ Nota importante
+      </button>
+
+      <button
+        class="quick-action"
+        onclick="showView('calendarView')">
+        📅 Apri calendario
+      </button>
+
+      <button
+        class="quick-action"
+        onclick="openSongModal()">
+        🎵 Nuovo brano
+      </button>
 
     </div>
 
-    <div class="calendar-grid" id="calendarGrid"></div>
+  </div>
+
+
+  <!-- STATISTICHE -->
+
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <div class="stat-icon">⏰</div>
+      <div
+        id="statEvents"
+        class="stat-number">
+        0
+      </div>
+      <div class="stat-label">
+        Scadenze
+      </div>
+    </div>
+
+
+    <div class="stat-card">
+      <div class="stat-icon">⭐</div>
+      <div
+        id="statNotes"
+        class="stat-number">
+        0
+      </div>
+      <div class="stat-label">
+        Note importanti
+      </div>
+    </div>
+
+
+    <div class="stat-card">
+      <div class="stat-icon">☑️</div>
+      <div
+        id="statTasks"
+        class="stat-number">
+        0
+      </div>
+      <div class="stat-label">
+        Attività aperte
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="home-grid">
+
+
+    <!-- OGGI -->
+
+    <div class="card">
+
+      <div class="section-title">
+        <h2>⏰ Oggi</h2>
+
+        <button
+          class="small-btn"
+          onclick="openEventModal()">
+          ＋ Evento
+        </button>
+      </div>
+
+      <div id="homeTodayEvents"></div>
+
+    </div>
+
+
+    <!-- PROSSIME SCADENZE -->
+
+    <div class="card">
+
+      <div class="section-title">
+        <h2>🔜 Prossime scadenze</h2>
+      </div>
+
+      <div id="homeUpcoming"></div>
+
+    </div>
+
+
+    <!-- NOTE IMPORTANTI -->
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <h2>
+          ⭐ Note importanti
+        </h2>
+
+        <button
+          class="small-btn"
+          onclick="openImportantNoteModal()">
+          ＋ Nota
+        </button>
+
+      </div>
+
+      <div id="homeImportantNotes"></div>
+
+    </div>
+
+
+    <!-- CALENDARIO -->
+
+    <div class="card">
+
+      <div class="section-title">
+
+        <h2>
+          📅 Calendario
+        </h2>
+
+        <button
+          class="small-btn"
+          onclick="showView('calendarView')">
+          Apri tutto
+        </button>
+
+      </div>
+
+      <div id="homeCalendar"></div>
+
+    </div>
+
+
+    <!-- EVENTI DATA SELEZIONATA -->
+
+    <div class="card home-wide">
+
+      <div class="section-title">
+
+        <h2 id="homeSelectedDateTitle">
+          Eventi
+        </h2>
+
+        <button
+          class="small-btn"
+          onclick="openEventModal()">
+          ＋ Evento
+        </button>
+
+      </div>
+
+      <div id="homeSelectedDateEvents"></div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     CALENDAR VIEW
+======================================================== -->
+
+<section
+  id="calendarView"
+  class="view">
+
+
+  <div class="page-header">
+
+    <div>
+      <h1 class="page-title">
+        Calendario
+      </h1>
+
+      <p class="page-subtitle">
+        Visualizza e gestisci tutte le tue scadenze.
+      </p>
+    </div>
+
+    <button
+      class="primary-btn"
+      onclick="openEventModal()">
+      ＋ Evento
+    </button>
+
+  </div>
+
+
+  <div class="card">
+
+    <div id="fullCalendar"></div>
+
+  </div>
+
+
+  <div class="card">
+
+    <div class="section-title">
+
+      <h2 id="selectedDateTitle">
+        Eventi del giorno
+      </h2>
+
+      <button
+        class="small-btn"
+        onclick="openEventModal()">
+        ＋ Evento
+      </button>
+
+    </div>
+
+    <div id="selectedDateEvents"></div>
+
+  </div>
+
+</section>
+
+
+<!-- =======================================================
+     SONG VIEW
+======================================================== -->
+
+<section
+  id="songView"
+  class="view">
+
+
+  <div class="page-header">
+
+    <div>
+      <h1
+        id="songTitle"
+        class="page-title">
+        Brano
+      </h1>
+
+      <p class="page-subtitle">
+        Note, checklist e allegati.
+      </p>
+    </div>
+
+    <button
+      class="secondary-btn"
+      onclick="openSongModal(data.selectedSong)">
+      ✏️ Modifica
+    </button>
+
+  </div>
+
+
+  <!-- NOTE -->
+
+  <div class="card">
+
+    <div class="section-title">
+
+      <h2>
+        📝 Note
+      </h2>
+
+    </div>
+
+    <textarea
+      id="songNotes"
+      class="notes"
+      placeholder="Scrivi qui le tue note..."
+      oninput="saveSongNotes()"></textarea>
+
+  </div>
+
+
+  <!-- CHECKLIST -->
+
+  <div class="card">
+
+    <div class="section-title">
+
+      <h2>
+        ☑️ Checklist
+      </h2>
+
+      <button
+        class="small-btn"
+        onclick="addSection()">
+        ＋ Sezione
+      </button>
+
+    </div>
+
+    <div id="sectionsContainer"></div>
+
+  </div>
+
+
+  <!-- ALLEGATI -->
+
+  <div class="card">
+
+    <div class="section-title">
+
+      <h2>
+        📎 Allegati
+      </h2>
+
+    </div>
+
+
+    <label class="file-label">
+
+      📎 Aggiungi file
+
+      <input
+        type="file"
+        multiple
+        onchange="addAttachments(event)">
+
+    </label>
+
+
+    <div
+      id="attachmentsContainer"
+      class="attachment-list">
+    </div>
+
+    <p
+      style="
+        color:var(--pm-text-soft);
+        font-size:12px;
+        margin:10px 0 0;
+      ">
+      Vengono salvati nel backup i nomi degli allegati.
+      I file originali non vengono incorporati.
+    </p>
+
+  </div>
+
+</section>
+
+
+</main>
+
+
+<!-- =======================================================
+     EVENT MODAL
+======================================================== -->
+
+<div
+  id="eventModal"
+  class="modal"
+  onclick="closeModalIfBackground(event,'eventModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <h2 id="eventModalTitle">
+        Nuovo evento
+      </h2>
+
+      <button
+        class="close-modal"
+        onclick="closeModal('eventModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Titolo
+      </label>
+
+      <input
+        id="eventTitle"
+        type="text"
+        placeholder="Es. Prova, riunione, scadenza...">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Data
+      </label>
+
+      <input
+        id="eventDate"
+        type="date">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Ora
+      </label>
+
+      <input
+        id="eventTime"
+        type="time">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Descrizione
+      </label>
+
+      <textarea
+        id="eventDescription"
+        placeholder="Aggiungi dettagli..."></textarea>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Brano collegato
+      </label>
+
+      <select id="eventSong"></select>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Foto copertina
+      </label>
+
+      <input
+        id="eventCover"
+        type="file"
+        accept="image/*"
+        onchange="handleCoverSelected(event)">
+
+      <img
+        id="coverPreview"
+        class="cover-preview"
+        alt="Anteprima copertina">
+
+      <button
+        id="removeCoverBtn"
+        class="secondary-btn"
+        style="display:none;margin-top:8px"
+        onclick="removeEventCover()">
+        Rimuovi foto
+      </button>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="primary-btn"
+        onclick="saveEvent()">
+        Salva evento
+      </button>
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal('eventModal')">
+        Annulla
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
 
-<input
-    type="file"
-    id="fileInput"
-    accept=".json,.portal.json"
-    style="display:none"
-    onchange="importData(event)"
->
+<!-- =======================================================
+     IMPORTANT NOTE MODAL
+======================================================== -->
+
+<div
+  id="noteModal"
+  class="modal"
+  onclick="closeModalIfBackground(event,'noteModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <h2 id="noteModalTitle">
+        Nota importante
+      </h2>
+
+      <button
+        class="close-modal"
+        onclick="closeModal('noteModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Titolo
+      </label>
+
+      <input
+        id="importantNoteTitle"
+        type="text"
+        placeholder="Es. Da ricordare">
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Nota
+      </label>
+
+      <textarea
+        id="importantNoteText"
+        placeholder="Scrivi la nota..."></textarea>
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="primary-btn"
+        onclick="saveImportantNote()">
+        Salva nota
+      </button>
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal('noteModal')">
+        Annulla
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     SONG MODAL
+======================================================== -->
+
+<div
+  id="songModal"
+  class="modal"
+  onclick="closeModalIfBackground(event,'songModal')">
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+
+      <h2 id="songModalTitle">
+        Nuovo brano
+      </h2>
+
+      <button
+        class="close-modal"
+        onclick="closeModal('songModal')">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="form-group">
+
+      <label>
+        Nome brano
+      </label>
+
+      <input
+        id="songName"
+        type="text"
+        placeholder="Es. Brano 1">
+
+    </div>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="primary-btn"
+        onclick="saveSong()">
+        Salva brano
+      </button>
+
+      <button
+        class="secondary-btn"
+        onclick="closeModal('songModal')">
+        Annulla
+      </button>
+
+      <button
+        id="deleteSongModalBtn"
+        class="danger-btn"
+        style="display:none"
+        onclick="deleteCurrentSong()">
+        🗑 Elimina brano
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 
 <script>
 
-/* =========================
+/* =========================================================
+   CONFIGURAZIONE
+========================================================= */
+
+const STORAGE_KEY = "portalAppV1";
+const BACKUP_VERSION = 8;
+
+let editingEventIndex = null;
+let editingNoteIndex = null;
+let editingSongIndex = null;
+
+let currentEventCover = null;
+
+let selectedCalendarDate = getTodayString();
+
+let calendarDate = new Date();
+calendarDate.setDate(1);
+
+
+/* =========================================================
    DATI INIZIALI
-========================= */
+========================================================= */
 
-let data =
-JSON.parse(localStorage.getItem("portalAppV1")) ||
-{
-    songs: [
+const DEFAULT_DATA = {
+  songs:[
+    {
+      name:"Brano 1",
 
+      sections:[
         {
-            name: "Brano 1",
+          name:"Generale",
 
-            sections: [
-
-                {
-                    name: "Registrazioni",
-
-                    tasks: [
-                        { text: "Chitarra", done: false },
-                        { text: "Synth", done: false },
-                        { text: "Basso", done: false },
-                        { text: "Voce", done: false }
-                    ],
-
-                    attachments: []
-                },
-
-
-                {
-                    name: "Cose importanti",
-
-                    tasks: [
-                        {
-                            text: "Controllare arrangiamento",
-                            done: false
-                        },
-
-                        {
-                            text: "Mandare riferimento",
-                            done: false
-                        }
-                    ],
-
-                    attachments: []
-                },
-
-
-                {
-                    name: "Editing / Mix",
-
-                    tasks: [
-                        {
-                            text: "Pulizia tracce",
-                            done: false
-                        },
-
-                        {
-                            text: "Controllo livelli",
-                            done: false
-                        }
-                    ],
-
-                    attachments: []
-                }
-
-            ]
+          tasks:[
+            {
+              text:"Prima attività",
+              done:false
+            },
+            {
+              text:"Seconda attività",
+              done:false
+            }
+          ]
         }
+      ],
 
-    ],
+      notes:"",
 
-    selectedSong: 0
+      attachments:[]
+    }
+  ],
+
+  selectedSong:0,
+
+  events:[],
+
+  importantNotes:[]
 };
 
 
-/* =========================
-   SALVATAGGIO
-========================= */
+let data = loadData();
 
-function saveData() {
+
+/* =========================================================
+   UTILITY
+========================================================= */
+
+function deepClone(obj){
+  return JSON.parse(JSON.stringify(obj));
+}
+
+
+function getTodayString(){
+
+  const d = new Date();
+
+  const y = d.getFullYear();
+
+  const m = String(d.getMonth()+1).padStart(2,"0");
+
+  const day = String(d.getDate()).padStart(2,"0");
+
+  return `${y}-${m}-${day}`;
+}
+
+
+function formatDate(dateString){
+
+  if(!dateString){
+    return "";
+  }
+
+  const d = new Date(dateString + "T12:00:00");
+
+  return d.toLocaleDateString(
+    "it-IT",
+    {
+      day:"2-digit",
+      month:"long",
+      year:"numeric"
+    }
+  );
+}
+
+
+function formatShortDate(dateString){
+
+  if(!dateString){
+    return "";
+  }
+
+  const d = new Date(dateString + "T12:00:00");
+
+  return d.toLocaleDateString(
+    "it-IT",
+    {
+      day:"2-digit",
+      month:"2-digit"
+    }
+  );
+}
+
+
+function escapeHtml(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+function getMonthName(date){
+
+  return date.toLocaleDateString(
+    "it-IT",
+    {
+      month:"long",
+      year:"numeric"
+    }
+  );
+}
+
+
+function sameDay(date1,date2){
+
+  return date1 === date2;
+}
+
+
+/* =========================================================
+   NORMALIZZAZIONE DATI
+========================================================= */
+
+function normalizeData(raw){
+
+  const result = {
+
+    songs:[],
+
+    selectedSong:0,
+
+    events:[],
+
+    importantNotes:[]
+  };
+
+
+  if(!raw || typeof raw !== "object"){
+    return deepClone(DEFAULT_DATA);
+  }
+
+
+  if(Array.isArray(raw.songs)){
+
+    result.songs = raw.songs.map((song,index)=>{
+
+      const safeSong = song || {};
+
+      let sections = [];
+
+      if(Array.isArray(safeSong.sections)){
+
+        sections = safeSong.sections.map(section=>{
+
+          const safeSection = section || {};
+
+          let tasks = [];
+
+          if(Array.isArray(safeSection.tasks)){
+
+            tasks = safeSection.tasks.map(task=>{
+
+              if(typeof task === "string"){
+
+                return {
+                  text:task,
+                  done:false
+                };
+
+              }
+
+              return {
+                text:String(task?.text ?? ""),
+                done:Boolean(task?.done)
+              };
+
+            });
+
+          }
+
+
+          return {
+
+            name:
+              String(
+                safeSection.name ??
+                `Sezione ${index+1}`
+              ),
+
+            tasks
+
+          };
+
+        });
+
+      }
+
+
+      if(!sections.length){
+
+        sections = [
+          {
+            name:"Generale",
+            tasks:[]
+          }
+        ];
+
+      }
+
+
+      return {
+
+        name:
+          String(
+            safeSong.name ??
+            `Brano ${index+1}`
+          ),
+
+        sections,
+
+        notes:
+          String(safeSong.notes ?? ""),
+
+        attachments:
+          Array.isArray(safeSong.attachments)
+            ? safeSong.attachments.map(String)
+            : []
+
+      };
+
+    });
+
+  }
+
+
+  if(!result.songs.length){
+
+    result.songs =
+      deepClone(DEFAULT_DATA.songs);
+
+  }
+
+
+  result.selectedSong =
+    Number.isInteger(raw.selectedSong)
+      ? raw.selectedSong
+      : 0;
+
+
+  if(
+    result.selectedSong < 0 ||
+    result.selectedSong >= result.songs.length
+  ){
+
+    result.selectedSong = 0;
+
+  }
+
+
+  if(Array.isArray(raw.events)){
+
+    result.events = raw.events.map(event=>({
+
+      title:
+        String(event?.title ?? "Evento"),
+
+      date:
+        String(event?.date ?? getTodayString()),
+
+      time:
+        String(event?.time ?? ""),
+
+      description:
+        String(event?.description ?? ""),
+
+      songIndex:
+        Number.isInteger(event?.songIndex)
+          ? event.songIndex
+          : null,
+
+      cover:
+        typeof event?.cover === "string"
+          ? event.cover
+          : null
+
+    }));
+
+  }
+
+
+  if(Array.isArray(raw.importantNotes)){
+
+    result.importantNotes =
+      raw.importantNotes.map(note=>({
+
+        title:
+          String(note?.title ?? "Nota"),
+
+        text:
+          String(note?.text ?? "")
+
+      }));
+
+  }
+
+
+  return result;
+}
+
+
+/* =========================================================
+   LOCAL STORAGE
+========================================================= */
+
+function loadData(){
+
+  try{
+
+    const saved =
+      localStorage.getItem(STORAGE_KEY);
+
+    if(!saved){
+      return deepClone(DEFAULT_DATA);
+    }
+
+    const parsed =
+      JSON.parse(saved);
+
+    return normalizeData(parsed);
+
+  }catch(error){
+
+    console.error(error);
+
+    return deepClone(DEFAULT_DATA);
+  }
+}
+
+
+function saveData(){
+
+  try{
 
     localStorage.setItem(
-        "portalAppV1",
-        JSON.stringify(data)
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+    alert(
+      "Non è stato possibile salvare i dati. " +
+      "La memoria del browser potrebbe essere piena."
+    );
+
+  }
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+let sidebarTimer = null;
+
+
+function toggleSidebar(){
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  if(sidebar.classList.contains("open")){
+
+    closeSidebar();
+
+  }else{
+
+    openSidebar();
+
+  }
+
+}
+
+
+function openSidebar(){
+
+  const sidebar =
+    document.getElementById("sidebar");
+
+  const overlay =
+    document.getElementById("sidebarOverlay");
+
+  sidebar.classList.add("open");
+
+  overlay.classList.add("show");
+
+  clearTimeout(sidebarTimer);
+
+  sidebarTimer =
+    setTimeout(
+      closeSidebar,
+      5000
     );
 
 }
 
 
-/* =========================
-   ESCAPE TESTO
-========================= */
+function closeSidebar(){
 
-function escapeHTML(text) {
+  const sidebar =
+    document.getElementById("sidebar");
 
-    return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+  const overlay =
+    document.getElementById("sidebarOverlay");
+
+  sidebar.classList.remove("open");
+
+  overlay.classList.remove("show");
+
+  clearTimeout(sidebarTimer);
 
 }
 
 
-/* =========================
-   SIDEBAR
-========================= */
+/* =========================================================
+   VIEWS
+========================================================= */
 
-function toggleSidebar() {
+function showView(viewId){
+
+  document
+    .querySelectorAll(".view")
+    .forEach(view=>{
+      view.classList.remove("active");
+    });
+
+
+  const target =
+    document.getElementById(viewId);
+
+  if(target){
+    target.classList.add("active");
+  }
+
+
+  document
+    .querySelectorAll(".sidebar-home,.sidebar-calendar")
+    .forEach(btn=>{
+      btn.classList.remove("active");
+    });
+
+
+  if(viewId === "homeView"){
 
     document
-        .getElementById("sidebar")
-        .classList.toggle("open");
+      .getElementById("navHome")
+      .classList.add("active");
+
+  }
+
+
+  if(viewId === "calendarView"){
+
+    document
+      .getElementById("navCalendar")
+      .classList.add("active");
+
+  }
+
+
+  if(viewId === "songView"){
+
+    renderSongView();
+
+  }
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-/* =========================
-   RENDER
-========================= */
+/* =========================================================
+   SIDEBAR BRANI
+========================================================= */
 
-function render() {
+function renderSongList(){
 
-    renderSongs();
+  const container =
+    document.getElementById("songList");
 
-    const song =
-        data.songs[data.selectedSong];
+  if(!container){
+    return;
+  }
 
-    document.getElementById("title").textContent =
-        song.name;
 
+  container.innerHTML = "";
 
-    const content =
-        document.getElementById("content");
 
-    content.innerHTML = "";
+  data.songs.forEach((song,index)=>{
 
+    const row =
+      document.createElement("div");
 
-    song.sections.forEach(
-        (section, sectionIndex) => {
+    row.className =
+      "song-row";
 
-            const box =
-                document.createElement("div");
 
-            box.className = "section";
+    const button =
+      document.createElement("button");
 
+    button.className =
+      "song-select" +
+      (
+        index === data.selectedSong
+          ? " selected"
+          : ""
+      );
 
-            box.innerHTML = `
+    button.textContent =
+      "🎵 " + song.name;
 
-                <div class="section-header">
+    button.onclick = ()=>{
 
-                    <div class="section-title">
-                        ${escapeHTML(section.name)}
-                    </div>
+      data.selectedSong = index;
 
-                    <div>
+      saveData();
 
-                        <button
-                            onclick="renameSection(${sectionIndex})">
-                            Rinomina
-                        </button>
+      renderSongList();
 
-                        <button
-                            onclick="deleteSection(${sectionIndex})">
-                            Elimina
-                        </button>
+      renderSongView();
 
-                    </div>
+      showView("songView");
 
-                </div>
+      closeSidebar();
 
-            `;
+    };
 
 
-            section.tasks.forEach(
-                (task, taskIndex) => {
+    const more =
+      document.createElement("button");
 
-                    const row =
-                        document.createElement("div");
+    more.className =
+      "song-more";
 
-                    row.className = "task";
+    more.title =
+      "Modifica brano";
 
+    more.textContent =
+      "⋯";
 
-                    row.innerHTML = `
+    more.onclick = ()=>{
 
-                        <input
-                            type="checkbox"
-                            ${task.done ? "checked" : ""}
-                            onchange="
-                                toggleTask(
-                                    ${sectionIndex},
-                                    ${taskIndex}
-                                )
-                            "
-                        >
+      openSongModal(index);
 
-                        <span
-                            class="${task.done ? "completed" : ""}">
-                            ${escapeHTML(task.text)}
-                        </span>
+    };
 
-                        <div class="task-actions">
 
-                            <button
-                                onclick="
-                                    renameTask(
-                                        ${sectionIndex},
-                                        ${taskIndex}
-                                    )
-                                ">
-                                ✎
-                            </button>
+    row.appendChild(button);
 
-                            <button
-                                onclick="
-                                    deleteTask(
-                                        ${sectionIndex},
-                                        ${taskIndex}
-                                    )
-                                ">
-                                ✕
-                            </button>
+    row.appendChild(more);
 
-                        </div>
+    container.appendChild(row);
 
-                    `;
-
-
-                    box.appendChild(row);
-
-                }
-            );
-
-
-            const addTask =
-                document.createElement("div");
-
-            addTask.style.padding = "12px 14px";
-
-
-            addTask.innerHTML = `
-
-                <button
-                    onclick="addTask(${sectionIndex})">
-                    ＋ Aggiungi attività
-                </button>
-
-            `;
-
-            box.appendChild(addTask);
-
-
-            /* ALLEGATI */
-
-            const attachments =
-                document.createElement("div");
-
-            attachments.className =
-                "attachments";
-
-
-            let attachmentHTML = "";
-
-            if (
-                section.attachments.length === 0
-            ) {
-
-                attachmentHTML =
-                    `<span style="color:#777">
-                        Nessun allegato
-                    </span>`;
-
-            } else {
-
-                attachmentHTML =
-                    section.attachments
-                        .map(
-                            file =>
-                            `<span class="attachment">
-                                ${escapeHTML(file)}
-                            </span>`
-                        )
-                        .join("");
-
-            }
-
-
-            attachments.innerHTML = `
-
-                <strong>
-                    Allegati
-                </strong>
-
-                <div>
-                    ${attachmentHTML}
-                </div>
-
-                <br>
-
-                <button
-                    onclick="
-                        addAttachment(${sectionIndex})
-                    ">
-                    ＋ Aggiungi allegato
-                </button>
-
-            `;
-
-
-            box.appendChild(attachments);
-
-            content.appendChild(box);
-
-        }
-    );
-
-
-    const newSection =
-        document.createElement("button");
-
-    newSection.textContent =
-        "＋ Nuova sezione";
-
-    newSection.onclick =
-        addSection;
-
-    content.appendChild(newSection);
-
-
-    saveData();
+  });
 
 }
 
 
-/* =========================
-   BRANI
-========================= */
+/* =========================================================
+   HOME
+========================================================= */
 
-function renderSongs() {
+function renderHome(){
 
-    const container =
-        document.getElementById("songs");
-
-    container.innerHTML = "";
+  const today =
+    getTodayString();
 
 
-    data.songs.forEach(
-        (song, index) => {
-
-            const div =
-                document.createElement("div");
-
-            div.className =
-                "song " +
-                (
-                    index === data.selectedSong
-                        ? "active"
-                        : ""
-                );
+  const dateElement =
+    document.getElementById("homeDate");
 
 
-            div.textContent =
-                "♪ " + song.name;
+  if(dateElement){
 
-
-            div.onclick = function() {
-
-                data.selectedSong = index;
-
-                render();
-
-            };
-
-
-            container.appendChild(div);
-
-        }
-    );
-
-}
-
-
-function addSong() {
-
-    const name =
-        prompt(
-            "Nome del nuovo brano:",
-            "Nuovo brano"
+    const todayFormatted =
+      new Date()
+        .toLocaleDateString(
+          "it-IT",
+          {
+            weekday:"long",
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+          }
         );
 
-    if (!name) return;
 
+    dateElement.textContent =
+      todayFormatted.charAt(0).toUpperCase() +
+      todayFormatted.slice(1);
+
+  }
+
+
+  const openTasks =
+    countOpenTasks();
+
+
+  document.getElementById("statEvents")
+    .textContent =
+      data.events.length;
+
+
+  document.getElementById("statNotes")
+    .textContent =
+      data.importantNotes.length;
+
+
+  document.getElementById("statTasks")
+    .textContent =
+      openTasks;
+
+
+  renderHomeToday();
+
+  renderHomeUpcoming();
+
+  renderHomeImportantNotes();
+
+  renderHomeCalendar();
+
+  renderHomeSelectedDateEvents();
+
+}
+
+
+function countOpenTasks(){
+
+  let count = 0;
+
+
+  data.songs.forEach(song=>{
+
+    song.sections.forEach(section=>{
+
+      section.tasks.forEach(task=>{
+
+        if(!task.done){
+          count++;
+        }
+
+      });
+
+    });
+
+  });
+
+
+  return count;
+}
+
+
+/* =========================================================
+   HOME TODAY
+========================================================= */
+
+function renderHomeToday(){
+
+  const container =
+    document.getElementById("homeTodayEvents");
+
+
+  const today =
+    getTodayString();
+
+
+  const events =
+    data.events
+      .map((event,index)=>({
+        event,
+        index
+      }))
+      .filter(item =>
+        item.event.date === today
+      )
+      .sort(compareEvents);
+
+
+  if(!events.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessuna scadenza per oggi.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    events
+      .map(item =>
+        renderEventCard(
+          item.event,
+          item.index
+        )
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   HOME UPCOMING
+========================================================= */
+
+function renderHomeUpcoming(){
+
+  const container =
+    document.getElementById("homeUpcoming");
+
+
+  const today =
+    getTodayString();
+
+
+  const events =
+    data.events
+      .map((event,index)=>({
+        event,
+        index
+      }))
+      .filter(item =>
+        item.event.date >= today
+      )
+      .sort(compareEvents)
+      .slice(0,6);
+
+
+  if(!events.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessuna prossima scadenza.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    events.map(item=>{
+
+      const event =
+        item.event;
+
+
+      const song =
+        getSongName(event.songIndex);
+
+
+      return `
+        <div class="deadline-row">
+
+          <div class="deadline-date">
+            ${escapeHtml(formatShortDate(event.date))}
+          </div>
+
+          <div class="deadline-info">
+
+            <div class="deadline-title">
+              ${escapeHtml(event.title)}
+            </div>
+
+            <div class="deadline-meta">
+              ${event.time
+                ? "🕐 " + escapeHtml(event.time)
+                : ""}
+              ${song
+                ? " · 🎵 " + escapeHtml(song)
+                : ""}
+            </div>
+
+          </div>
+
+          <button
+            class="icon-btn"
+            onclick="openEventModal(${item.index})">
+            ✏️
+          </button>
+
+        </div>
+      `;
+
+    }).join("");
+
+}
+
+
+/* =========================================================
+   NOTE IMPORTANTI HOME
+========================================================= */
+
+function renderHomeImportantNotes(){
+
+  const container =
+    document.getElementById("homeImportantNotes");
+
+
+  if(!data.importantNotes.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessuna nota importante.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    data.importantNotes
+      .map((note,index)=>`
+
+        <div class="important-note">
+
+          <div class="important-note-title">
+            ${escapeHtml(note.title)}
+          </div>
+
+          <div class="important-note-text">
+            ${escapeHtml(note.text)}
+          </div>
+
+          <div class="important-note-actions">
+
+            <button
+              class="note-mini-btn"
+              onclick="openImportantNoteModal(${index})">
+              ✏️ Modifica
+            </button>
+
+            <button
+              class="note-mini-btn"
+              onclick="deleteImportantNote(${index})">
+              🗑 Elimina
+            </button>
+
+          </div>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* =========================================================
+   HOME CALENDAR
+========================================================= */
+
+function renderHomeCalendar(){
+
+  const container =
+    document.getElementById("homeCalendar");
+
+  if(!container){
+    return;
+  }
+
+
+  container.innerHTML =
+    createCalendarHtml("home");
+
+}
+
+
+/* =========================================================
+   FULL CALENDAR
+========================================================= */
+
+function renderCalendar(){
+
+  const container =
+    document.getElementById("fullCalendar");
+
+  if(!container){
+    return;
+  }
+
+
+  container.innerHTML =
+    createCalendarHtml("full");
+
+
+  renderSelectedDateEvents();
+
+}
+
+
+/* =========================================================
+   CREATE CALENDAR HTML
+========================================================= */
+
+function createCalendarHtml(prefix){
+
+  const year =
+    calendarDate.getFullYear();
+
+  const month =
+    calendarDate.getMonth();
+
+
+  const firstDay =
+    new Date(year,month,1);
+
+
+  const lastDay =
+    new Date(year,month+1,0);
+
+
+  let start =
+    firstDay.getDay();
+
+  start =
+    start === 0
+      ? 6
+      : start - 1;
+
+
+  const days =
+    lastDay.getDate();
+
+
+  const previousMonthDays =
+    new Date(year,month,0).getDate();
+
+
+  let html = `
+
+    <div class="calendar-header">
+
+      <button
+        onclick="changeMonth(-1)">
+        ‹
+      </button>
+
+      <div class="calendar-title">
+        ${escapeHtml(getMonthName(calendarDate))}
+      </div>
+
+      <button
+        onclick="changeMonth(1)">
+        ›
+      </button>
+
+    </div>
+
+
+    <div class="calendar-week">
+
+      <div>Lun</div>
+      <div>Mar</div>
+      <div>Mer</div>
+      <div>Gio</div>
+      <div>Ven</div>
+      <div>Sab</div>
+      <div>Dom</div>
+
+    </div>
+
+
+    <div class="calendar-grid">
+  `;
+
+
+  for(let i=0;i<start;i++){
+
+    const previousDay =
+      previousMonthDays - start + i + 1;
+
+    html += `
+      <div class="calendar-day empty">
+        <span class="day-number">
+          ${previousDay}
+        </span>
+      </div>
+    `;
+
+  }
+
+
+  const today =
+    getTodayString();
+
+
+  for(let day=1;day<=days;day++){
+
+    const dateString =
+      `${year}-${String(month+1).padStart(2,"0")}-${String(day).padStart(2,"0")}`;
+
+
+    const hasEvent =
+      data.events.some(
+        event => event.date === dateString
+      );
+
+
+    const isToday =
+      dateString === today;
+
+
+    const isSelected =
+      dateString === selectedCalendarDate;
+
+
+    const classes =
+      [
+        "calendar-day",
+        hasEvent ? "has-event" : "",
+        isToday ? "today" : "",
+        isSelected ? "selected" : ""
+      ]
+      .filter(Boolean)
+      .join(" ");
+
+
+    html += `
+
+      <button
+        class="${classes}"
+        onclick="selectCalendarDate('${dateString}')">
+
+        <span class="day-number">
+          ${day}
+        </span>
+
+      </button>
+
+    `;
+
+  }
+
+
+  const totalCells =
+    start + days;
+
+
+  const remaining =
+    (7 - (totalCells % 7)) % 7;
+
+
+  for(let i=1;i<=remaining;i++){
+
+    html += `
+      <div class="calendar-day empty">
+        <span class="day-number">
+          ${i}
+        </span>
+      </div>
+    `;
+
+  }
+
+
+  html += `
+    </div>
+  `;
+
+
+  return html;
+}
+
+
+/* =========================================================
+   CAMBIO MESE
+========================================================= */
+
+function changeMonth(amount){
+
+  calendarDate.setDate(1);
+
+  calendarDate.setMonth(
+    calendarDate.getMonth() + amount
+  );
+
+
+  renderCalendar();
+
+  renderHomeCalendar();
+
+}
+
+
+/* =========================================================
+   SELEZIONE DATA
+========================================================= */
+
+function selectCalendarDate(dateString){
+
+  selectedCalendarDate =
+    dateString;
+
+
+  renderCalendar();
+
+  renderHomeCalendar();
+
+  renderHomeSelectedDateEvents();
+
+}
+
+
+/* =========================================================
+   EVENTI DATA SELEZIONATA - HOME
+========================================================= */
+
+function renderHomeSelectedDateEvents(){
+
+  const container =
+    document.getElementById(
+      "homeSelectedDateEvents"
+    );
+
+
+  const title =
+    document.getElementById(
+      "homeSelectedDateTitle"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const events =
+    data.events
+      .map((event,index)=>({
+        event,
+        index
+      }))
+      .filter(item =>
+        item.event.date === selectedCalendarDate
+      )
+      .sort(compareEvents);
+
+
+  if(title){
+
+    title.textContent =
+      "Eventi del " +
+      formatDate(selectedCalendarDate);
+
+  }
+
+
+  if(!events.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessun evento per questa data.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    events
+      .map(item =>
+        renderEventCard(
+          item.event,
+          item.index
+        )
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   EVENTI DATA SELEZIONATA - CALENDARIO
+========================================================= */
+
+function renderSelectedDateEvents(){
+
+  const container =
+    document.getElementById(
+      "selectedDateEvents"
+    );
+
+
+  const title =
+    document.getElementById(
+      "selectedDateTitle"
+    );
+
+
+  if(!container){
+    return;
+  }
+
+
+  const events =
+    data.events
+      .map((event,index)=>({
+        event,
+        index
+      }))
+      .filter(item =>
+        item.event.date === selectedCalendarDate
+      )
+      .sort(compareEvents);
+
+
+  if(title){
+
+    title.textContent =
+      "Eventi del " +
+      formatDate(selectedCalendarDate);
+
+  }
+
+
+  if(!events.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessun evento per questa data.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    events
+      .map(item =>
+        renderEventCard(
+          item.event,
+          item.index
+        )
+      )
+      .join("");
+
+}
+
+
+/* =========================================================
+   ORDINE EVENTI
+========================================================= */
+
+function compareEvents(a,b){
+
+  const ea =
+    a.event || a;
+
+  const eb =
+    b.event || b;
+
+
+  const dateA =
+    `${ea.date || ""} ${ea.time || "23:59"}`;
+
+  const dateB =
+    `${eb.date || ""} ${eb.time || "23:59"}`;
+
+
+  return dateA.localeCompare(dateB);
+
+}
+
+
+/* =========================================================
+   EVENT CARD
+========================================================= */
+
+function renderEventCard(event,index){
+
+  const song =
+    getSongName(event.songIndex);
+
+
+  const cover =
+    event.cover
+      ? `
+        <img
+          class="event-cover"
+          src="${event.cover}"
+          alt="Copertina evento">
+      `
+      : `
+        <div class="event-placeholder">
+          📅
+        </div>
+      `;
+
+
+  return `
+
+    <article class="event-card">
+
+      ${cover}
+
+      <div class="event-body">
+
+        <div class="event-title">
+          ${escapeHtml(event.title)}
+        </div>
+
+        <div class="event-meta">
+
+          📅 ${escapeHtml(formatDate(event.date))}
+
+          ${
+            event.time
+              ? ` · 🕐 ${escapeHtml(event.time)}`
+              : ""
+          }
+
+          ${
+            song
+              ? ` · 🎵 ${escapeHtml(song)}`
+              : ""
+          }
+
+        </div>
+
+
+        ${
+          event.description
+            ? `
+              <div class="event-description">
+                ${escapeHtml(event.description)}
+              </div>
+            `
+            : ""
+        }
+
+
+        <div class="event-actions">
+
+          <button
+            class="small-btn"
+            onclick="openEventModal(${index})">
+            ✏️ Modifica
+          </button>
+
+          <button
+            class="danger-btn"
+            onclick="deleteEvent(${index})">
+            🗑 Elimina
+          </button>
+
+        </div>
+
+      </div>
+
+    </article>
+
+  `;
+
+}
+
+
+/* =========================================================
+   SONG NAME
+========================================================= */
+
+function getSongName(index){
+
+  if(
+    !Number.isInteger(index) ||
+    !data.songs[index]
+  ){
+
+    return "";
+
+  }
+
+
+  return data.songs[index].name;
+
+}
+
+
+/* =========================================================
+   EVENT MODAL
+========================================================= */
+
+function openEventModal(index=null){
+
+  editingEventIndex =
+    Number.isInteger(index)
+      ? index
+      : null;
+
+
+  currentEventCover = null;
+
+
+  const title =
+    document.getElementById("eventModalTitle");
+
+  const eventTitle =
+    document.getElementById("eventTitle");
+
+  const eventDate =
+    document.getElementById("eventDate");
+
+  const eventTime =
+    document.getElementById("eventTime");
+
+  const eventDescription =
+    document.getElementById("eventDescription");
+
+  const eventCover =
+    document.getElementById("eventCover");
+
+  const preview =
+    document.getElementById("coverPreview");
+
+  const removeBtn =
+    document.getElementById("removeCoverBtn");
+
+
+  eventCover.value = "";
+
+
+  if(editingEventIndex !== null){
+
+    const event =
+      data.events[editingEventIndex];
+
+
+    title.textContent =
+      "Modifica evento";
+
+    eventTitle.value =
+      event.title;
+
+    eventDate.value =
+      event.date;
+
+    eventTime.value =
+      event.time;
+
+    eventDescription.value =
+      event.description;
+
+    currentEventCover =
+      event.cover || null;
+
+
+    if(currentEventCover){
+
+      preview.src =
+        currentEventCover;
+
+      preview.style.display =
+        "block";
+
+      removeBtn.style.display =
+        "inline-block";
+
+    }else{
+
+      preview.style.display =
+        "none";
+
+      removeBtn.style.display =
+        "none";
+
+    }
+
+  }else{
+
+    title.textContent =
+      "Nuovo evento";
+
+    eventTitle.value = "";
+
+    eventDate.value =
+      selectedCalendarDate || getTodayString();
+
+    eventTime.value = "";
+
+    eventDescription.value = "";
+
+    preview.style.display =
+      "none";
+
+    removeBtn.style.display =
+      "none";
+
+  }
+
+
+  renderSongSelect(
+    editingEventIndex !== null
+      ? data.events[editingEventIndex].songIndex
+      : data.selectedSong
+  );
+
+
+  document
+    .getElementById("eventModal")
+    .classList.add("show");
+
+}
+
+
+function renderSongSelect(selectedIndex){
+
+  const select =
+    document.getElementById("eventSong");
+
+
+  select.innerHTML =
+    `<option value="">Nessun brano</option>`;
+
+
+  data.songs.forEach((song,index)=>{
+
+    const option =
+      document.createElement("option");
+
+    option.value =
+      index;
+
+    option.textContent =
+      song.name;
+
+    if(index === selectedIndex){
+
+      option.selected = true;
+
+    }
+
+
+    select.appendChild(option);
+
+  });
+
+}
+
+
+/* =========================================================
+   COVER EVENTO
+========================================================= */
+
+function handleCoverSelected(event){
+
+  const file =
+    event.target.files?.[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  if(!file.type.startsWith("image/")){
+
+    alert(
+      "Seleziona un'immagine."
+    );
+
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = ()=>{
+
+    currentEventCover =
+      reader.result;
+
+
+    const preview =
+      document.getElementById(
+        "coverPreview"
+      );
+
+
+    const removeBtn =
+      document.getElementById(
+        "removeCoverBtn"
+      );
+
+
+    preview.src =
+      currentEventCover;
+
+    preview.style.display =
+      "block";
+
+    removeBtn.style.display =
+      "inline-block";
+
+  };
+
+
+  reader.readAsDataURL(file);
+
+}
+
+
+function removeEventCover(){
+
+  currentEventCover = null;
+
+
+  document.getElementById(
+    "coverPreview"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "removeCoverBtn"
+  ).style.display = "none";
+
+
+  document.getElementById(
+    "eventCover"
+  ).value = "";
+
+}
+
+
+/* =========================================================
+   SALVA EVENTO
+========================================================= */
+
+function saveEvent(){
+
+  const title =
+    document
+      .getElementById("eventTitle")
+      .value
+      .trim();
+
+
+  const date =
+    document
+      .getElementById("eventDate")
+      .value;
+
+
+  const time =
+    document
+      .getElementById("eventTime")
+      .value;
+
+
+  const description =
+    document
+      .getElementById("eventDescription")
+      .value
+      .trim();
+
+
+  const songValue =
+    document
+      .getElementById("eventSong")
+      .value;
+
+
+  if(!title){
+
+    alert(
+      "Inserisci un titolo per l'evento."
+    );
+
+    return;
+  }
+
+
+  if(!date){
+
+    alert(
+      "Inserisci una data."
+    );
+
+    return;
+  }
+
+
+  const songIndex =
+    songValue === ""
+      ? null
+      : Number(songValue);
+
+
+  const eventData = {
+
+    title,
+
+    date,
+
+    time,
+
+    description,
+
+    songIndex,
+
+    cover:
+      currentEventCover
+
+  };
+
+
+  if(editingEventIndex === null){
+
+    data.events.push(
+      eventData
+    );
+
+  }else{
+
+    data.events[
+      editingEventIndex
+    ] =
+      eventData;
+
+  }
+
+
+  selectedCalendarDate =
+    date;
+
+
+  calendarDate =
+    new Date(date + "T12:00:00");
+
+  calendarDate.setDate(1);
+
+
+  saveData();
+
+  renderAll();
+
+  closeModal("eventModal");
+
+}
+
+
+/* =========================================================
+   ELIMINA EVENTO
+========================================================= */
+
+function deleteEvent(index){
+
+  const event =
+    data.events[index];
+
+
+  if(!event){
+    return;
+  }
+
+
+  const ok =
+    confirm(
+      `Vuoi eliminare l'evento "${event.title}"?`
+    );
+
+
+  if(!ok){
+    return;
+  }
+
+
+  data.events.splice(index,1);
+
+  saveData();
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   IMPORTANT NOTES
+========================================================= */
+
+function openImportantNoteModal(index=null){
+
+  editingNoteIndex =
+    Number.isInteger(index)
+      ? index
+      : null;
+
+
+  const title =
+    document.getElementById(
+      "noteModalTitle"
+    );
+
+
+  if(editingNoteIndex !== null){
+
+    const note =
+      data.importantNotes[
+        editingNoteIndex
+      ];
+
+
+    title.textContent =
+      "Modifica nota";
+
+    document.getElementById(
+      "importantNoteTitle"
+    ).value =
+      note.title;
+
+    document.getElementById(
+      "importantNoteText"
+    ).value =
+      note.text;
+
+  }else{
+
+    title.textContent =
+      "Nuova nota importante";
+
+    document.getElementById(
+      "importantNoteTitle"
+    ).value = "";
+
+    document.getElementById(
+      "importantNoteText"
+    ).value = "";
+
+  }
+
+
+  document
+    .getElementById("noteModal")
+    .classList.add("show");
+
+}
+
+
+function saveImportantNote(){
+
+  const title =
+    document
+      .getElementById(
+        "importantNoteTitle"
+      )
+      .value
+      .trim();
+
+
+  const text =
+    document
+      .getElementById(
+        "importantNoteText"
+      )
+      .value
+      .trim();
+
+
+  if(!title && !text){
+
+    alert(
+      "Inserisci almeno una parte della nota."
+    );
+
+    return;
+  }
+
+
+  const note = {
+
+    title:
+      title || "Nota importante",
+
+    text
+
+  };
+
+
+  if(editingNoteIndex === null){
+
+    data.importantNotes.push(note);
+
+  }else{
+
+    data.importantNotes[
+      editingNoteIndex
+    ] =
+      note;
+
+  }
+
+
+  saveData();
+
+  renderAll();
+
+  closeModal("noteModal");
+
+}
+
+
+function deleteImportantNote(index){
+
+  const note =
+    data.importantNotes[index];
+
+
+  if(!note){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Eliminare la nota "${note.title}"?`
+    )
+  ){
+
+    return;
+
+  }
+
+
+  data.importantNotes.splice(
+    index,
+    1
+  );
+
+
+  saveData();
+
+  renderAll();
+
+}
+
+
+/* =========================================================
+   SONG MODAL
+========================================================= */
+
+function openSongModal(index=null){
+
+  editingSongIndex =
+    Number.isInteger(index)
+      ? index
+      : null;
+
+
+  const modalTitle =
+    document.getElementById(
+      "songModalTitle"
+    );
+
+
+  const deleteButton =
+    document.getElementById(
+      "deleteSongModalBtn"
+    );
+
+
+  if(editingSongIndex !== null){
+
+    const song =
+      data.songs[
+        editingSongIndex
+      ];
+
+
+    modalTitle.textContent =
+      "Modifica brano";
+
+    document.getElementById(
+      "songName"
+    ).value =
+      song.name;
+
+
+    deleteButton.style.display =
+      "inline-block";
+
+  }else{
+
+    modalTitle.textContent =
+      "Nuovo brano";
+
+    document.getElementById(
+      "songName"
+    ).value =
+      "";
+
+
+    deleteButton.style.display =
+      "none";
+
+  }
+
+
+  document
+    .getElementById("songModal")
+    .classList.add("show");
+
+}
+
+
+function saveSong(){
+
+  const name =
+    document
+      .getElementById("songName")
+      .value
+      .trim();
+
+
+  if(!name){
+
+    alert(
+      "Inserisci il nome del brano."
+    );
+
+    return;
+  }
+
+
+  if(editingSongIndex === null){
 
     data.songs.push({
 
-        name: name,
+      name,
 
-        sections: []
+      sections:[
+        {
+          name:"Generale",
+          tasks:[]
+        }
+      ],
+
+      notes:"",
+
+      attachments:[]
 
     });
 
 
     data.selectedSong =
-        data.songs.length - 1;
+      data.songs.length - 1;
 
 
-    render();
+  }else{
+
+    data.songs[
+      editingSongIndex
+    ].name =
+      name;
+
+    data.selectedSong =
+      editingSongIndex;
+
+  }
+
+
+  saveData();
+
+  renderAll();
+
+  closeModal("songModal");
+
+  showView("songView");
 
 }
 
 
-/* =========================
-   SEZIONI
-========================= */
+function deleteCurrentSong(){
 
-function addSection() {
+  if(editingSongIndex === null){
+    return;
+  }
 
-    const name =
-        prompt(
-            "Nome della nuova sezione:",
-            "Nuova sezione"
+
+  if(data.songs.length <= 1){
+
+    alert(
+      "Deve rimanere almeno un brano."
+    );
+
+    return;
+  }
+
+
+  const song =
+    data.songs[
+      editingSongIndex
+    ];
+
+
+  if(
+    !confirm(
+      `Vuoi eliminare "${song.name}"?`
+    )
+  ){
+
+    return;
+
+  }
+
+
+  data.songs.splice(
+    editingSongIndex,
+    1
+  );
+
+
+  data.events =
+    data.events.map(event=>{
+
+      if(
+        event.songIndex ===
+        editingSongIndex
+      ){
+
+        return {
+          ...event,
+          songIndex:null
+        };
+
+      }
+
+
+      if(
+        Number.isInteger(event.songIndex) &&
+        event.songIndex > editingSongIndex
+      ){
+
+        return {
+          ...event,
+          songIndex:
+            event.songIndex - 1
+        };
+
+      }
+
+
+      return event;
+
+    });
+
+
+  if(
+    data.selectedSong >=
+    data.songs.length
+  ){
+
+    data.selectedSong =
+      data.songs.length - 1;
+
+  }
+
+
+  if(
+    data.selectedSong > editingSongIndex
+  ){
+
+    data.selectedSong--;
+
+  }
+
+
+  saveData();
+
+  renderAll();
+
+  closeModal("songModal");
+
+  showView("songView");
+
+}
+
+
+/* =========================================================
+   SONG VIEW
+========================================================= */
+
+function renderSongView(){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  if(!song){
+    return;
+  }
+
+
+  document.getElementById(
+    "songTitle"
+  ).textContent =
+    song.name;
+
+
+  document.getElementById(
+    "songNotes"
+  ).value =
+    song.notes || "";
+
+
+  renderSections();
+
+  renderAttachments();
+
+}
+
+
+/* =========================================================
+   NOTE BRANO
+========================================================= */
+
+function saveSongNotes(){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  if(!song){
+    return;
+  }
+
+
+  song.notes =
+    document.getElementById(
+      "songNotes"
+    ).value;
+
+
+  saveData();
+
+}
+
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+function renderSections(){
+
+  const container =
+    document.getElementById(
+      "sectionsContainer"
+    );
+
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  if(!song){
+    return;
+  }
+
+
+  container.innerHTML = "";
+
+
+  song.sections.forEach(
+    (section,sectionIndex)=>{
+
+      const sectionDiv =
+        document.createElement(
+          "div"
         );
 
-    if (!name) return;
+
+      sectionDiv.className =
+        "check-section";
 
 
-    data
-        .songs[data.selectedSong]
-        .sections
-        .push({
+      sectionDiv.innerHTML = `
 
-            name: name,
+        <div class="check-section-header">
 
-            tasks: [],
+          <div class="check-section-name">
+            ${escapeHtml(section.name)}
+          </div>
 
-            attachments: []
+          <button
+            class="icon-btn"
+            title="Rinomina sezione"
+            onclick="renameSection(${sectionIndex})">
+            ✏️
+          </button>
 
-        });
+          <button
+            class="icon-btn danger"
+            title="Elimina sezione"
+            onclick="deleteSection(${sectionIndex})">
+            🗑
+          </button>
+
+          <button
+            class="add-task"
+            onclick="addTask(${sectionIndex})">
+            ＋ Attività
+          </button>
+
+        </div>
+
+        <div
+          id="taskList-${sectionIndex}"
+          class="task-list">
+        </div>
+
+      `;
 
 
-    render();
-
-}
-
-
-function renameSection(index) {
-
-    const section =
-        data
-            .songs[data.selectedSong]
-            .sections[index];
-
-
-    const name =
-        prompt(
-            "Rinomina sezione:",
-            section.name
+      const taskList =
+        sectionDiv.querySelector(
+          `.task-list`
         );
 
 
-    if (!name) return;
+      if(!section.tasks.length){
+
+        taskList.innerHTML =
+          `<div class="empty">
+            Nessuna attività.
+          </div>`;
+
+      }else{
+
+        section.tasks.forEach(
+          (task,taskIndex)=>{
+
+            const row =
+              document.createElement(
+                "div"
+              );
 
 
-    section.name = name;
-
-    render();
-
-}
+            row.className =
+              "task-row";
 
 
-function deleteSection(index) {
+            row.innerHTML = `
 
-    if (
-        !confirm(
-            "Eliminare questa sezione?"
-        )
-    ) return;
+              <input
+                class="task-check"
+                type="checkbox"
+                ${task.done ? "checked" : ""}
+                onchange="
+                  toggleTask(
+                    ${sectionIndex},
+                    ${taskIndex},
+                    this.checked
+                  )
+                ">
+
+              <div
+                class="
+                  task-text
+                  ${task.done ? "done" : ""}
+                ">
+                ${escapeHtml(task.text)}
+              </div>
+
+              <div class="task-actions">
+
+                <button
+                  class="icon-btn"
+                  title="Modifica attività"
+                  onclick="
+                    editTask(
+                      ${sectionIndex},
+                      ${taskIndex}
+                    )
+                  ">
+                  ✏️
+                </button>
+
+                <button
+                  class="icon-btn danger"
+                  title="Elimina attività"
+                  onclick="
+                    deleteTask(
+                      ${sectionIndex},
+                      ${taskIndex}
+                    )
+                  ">
+                  🗑
+                </button>
+
+              </div>
+
+            `;
 
 
-    data
-        .songs[data.selectedSong]
-        .sections
-        .splice(index, 1);
+            taskList.appendChild(row);
 
-
-    render();
-
-}
-
-
-/* =========================
-   ATTIVITÀ
-========================= */
-
-function addTask(sectionIndex) {
-
-    const text =
-        prompt(
-            "Nuova attività:"
+          }
         );
 
-
-    if (!text) return;
-
-
-    data
-        .songs[data.selectedSong]
-        .sections[sectionIndex]
-        .tasks
-        .push({
-
-            text: text,
-
-            done: false
-
-        });
+      }
 
 
-    render();
+      container.appendChild(
+        sectionDiv
+      );
+
+    }
+  );
 
 }
 
 
-function renameTask(
-    sectionIndex,
-    taskIndex
-) {
+/* =========================================================
+   ADD SECTION
+========================================================= */
 
-    const task =
-        data
-            .songs[data.selectedSong]
-            .sections[sectionIndex]
-            .tasks[taskIndex];
+function addSection(){
 
-
-    const text =
-        prompt(
-            "Modifica attività:",
-            task.text
-        );
+  const name =
+    prompt(
+      "Nome della nuova sezione:"
+    );
 
 
-    if (!text) return;
+  if(name === null){
+    return;
+  }
 
 
-    task.text = text;
+  const cleanName =
+    name.trim();
 
-    render();
+
+  if(!cleanName){
+    return;
+  }
+
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  song.sections.push({
+
+    name:cleanName,
+
+    tasks:[]
+
+  });
+
+
+  saveData();
+
+  renderSongView();
 
 }
 
+
+/* =========================================================
+   RENAME SECTION
+========================================================= */
+
+function renameSection(index){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  const section =
+    song.sections[index];
+
+
+  const name =
+    prompt(
+      "Nuovo nome della sezione:",
+      section.name
+    );
+
+
+  if(name === null){
+    return;
+  }
+
+
+  const cleanName =
+    name.trim();
+
+
+  if(!cleanName){
+    return;
+  }
+
+
+  section.name =
+    cleanName;
+
+
+  saveData();
+
+  renderSongView();
+
+}
+
+
+/* =========================================================
+   DELETE SECTION
+========================================================= */
+
+function deleteSection(index){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  const section =
+    song.sections[index];
+
+
+  if(!section){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Eliminare la sezione "${section.name}"?`
+    )
+  ){
+
+    return;
+
+  }
+
+
+  song.sections.splice(
+    index,
+    1
+  );
+
+
+  if(!song.sections.length){
+
+    song.sections.push({
+
+      name:"Generale",
+
+      tasks:[]
+
+    });
+
+  }
+
+
+  saveData();
+
+  renderSongView();
+
+}
+
+
+/* =========================================================
+   ADD TASK
+========================================================= */
+
+function addTask(sectionIndex){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  const section =
+    song.sections[
+      sectionIndex
+    ];
+
+
+  const text =
+    prompt(
+      "Nuova attività:"
+    );
+
+
+  if(text === null){
+    return;
+  }
+
+
+  const cleanText =
+    text.trim();
+
+
+  if(!cleanText){
+    return;
+  }
+
+
+  section.tasks.push({
+
+    text:cleanText,
+
+    done:false
+
+  });
+
+
+  saveData();
+
+  renderSongView();
+
+}
+
+
+/* =========================================================
+   EDIT TASK
+========================================================= */
+
+function editTask(
+  sectionIndex,
+  taskIndex
+){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  const task =
+    song.sections[
+      sectionIndex
+    ].tasks[
+      taskIndex
+    ];
+
+
+  if(!task){
+    return;
+  }
+
+
+  const text =
+    prompt(
+      "Modifica attività:",
+      task.text
+    );
+
+
+  if(text === null){
+    return;
+  }
+
+
+  const cleanText =
+    text.trim();
+
+
+  if(!cleanText){
+    return;
+  }
+
+
+  task.text =
+    cleanText;
+
+
+  saveData();
+
+  renderSongView();
+
+}
+
+
+/* =========================================================
+   DELETE TASK
+========================================================= */
 
 function deleteTask(
-    sectionIndex,
-    taskIndex
-) {
+  sectionIndex,
+  taskIndex
+){
 
-    data
-        .songs[data.selectedSong]
-        .sections[sectionIndex]
-        .tasks
-        .splice(taskIndex, 1);
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
 
 
-    render();
+  const section =
+    song.sections[
+      sectionIndex
+    ];
+
+
+  const task =
+    section.tasks[
+      taskIndex
+    ];
+
+
+  if(!task){
+    return;
+  }
+
+
+  if(
+    !confirm(
+      `Eliminare "${task.text}"?`
+    )
+  ){
+
+    return;
+
+  }
+
+
+  section.tasks.splice(
+    taskIndex,
+    1
+  );
+
+
+  saveData();
+
+  renderSongView();
 
 }
 
+
+/* =========================================================
+   TOGGLE TASK
+========================================================= */
 
 function toggleTask(
-    sectionIndex,
-    taskIndex
-) {
+  sectionIndex,
+  taskIndex,
+  checked
+){
 
-    const task =
-        data
-            .songs[data.selectedSong]
-            .sections[sectionIndex]
-            .tasks[taskIndex];
-
-
-    task.done =
-        !task.done;
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
 
 
-    render();
+  const task =
+    song.sections[
+      sectionIndex
+    ].tasks[
+      taskIndex
+    ];
+
+
+  if(!task){
+    return;
+  }
+
+
+  task.done =
+    Boolean(checked);
+
+
+  saveData();
+
+  renderSongView();
+
+  renderHome();
 
 }
 
 
-/* =========================
+/* =========================================================
    ALLEGATI
-========================= */
+========================================================= */
 
-function addAttachment(
-    sectionIndex
-) {
+function addAttachments(event){
 
-    const name =
-        prompt(
-            "Nome dell'allegato o file:"
-        );
+  const files =
+    Array.from(
+      event.target.files || []
+    );
 
 
-    if (!name) return;
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
 
 
-    data
-        .songs[data.selectedSong]
-        .sections[sectionIndex]
-        .attachments
-        .push(name);
+  files.forEach(file=>{
+
+    song.attachments.push(
+      file.name
+    );
+
+  });
 
 
-    render();
+  saveData();
+
+  renderAttachments();
+
+  event.target.value = "";
 
 }
 
 
-/* =========================
-   EXPORT
-========================= */
+function renderAttachments(){
 
-function exportData() {
+  const container =
+    document.getElementById(
+      "attachmentsContainer"
+    );
+
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  if(!song){
+    return;
+  }
+
+
+  if(!song.attachments.length){
+
+    container.innerHTML =
+      `<div class="empty">
+        Nessun allegato.
+      </div>`;
+
+    return;
+  }
+
+
+  container.innerHTML =
+    song.attachments
+      .map((name,index)=>`
+
+        <div class="attachment">
+
+          📎
+          <span>
+            ${escapeHtml(name)}
+          </span>
+
+          <button
+            title="Rimuovi"
+            onclick="
+              removeAttachment(${index})
+            ">
+            ×
+          </button>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+function removeAttachment(index){
+
+  const song =
+    data.songs[
+      data.selectedSong
+    ];
+
+
+  if(
+    !confirm(
+      "Rimuovere questo allegato?"
+    )
+  ){
+
+    return;
+
+  }
+
+
+  song.attachments.splice(
+    index,
+    1
+  );
+
+
+  saveData();
+
+  renderAttachments();
+
+}
+
+
+/* =========================================================
+   MODALI
+========================================================= */
+
+function closeModal(id){
+
+  const modal =
+    document.getElementById(id);
+
+
+  if(modal){
+
+    modal.classList.remove(
+      "show"
+    );
+
+  }
+
+}
+
+
+function closeModalIfBackground(
+  event,
+  id
+){
+
+  if(
+    event.target.id === id
+  ){
+
+    closeModal(id);
+
+  }
+
+}
+
+
+/* =========================================================
+   BACKUP
+========================================================= */
+
+function createBackupObject(){
+
+  return {
+
+    app:"PM-App",
+
+    backupVersion:
+      BACKUP_VERSION,
+
+    exportedAt:
+      new Date().toISOString(),
+
+    data:
+      deepClone(data)
+
+  };
+
+}
+
+
+function createBackupJson(){
+
+  return JSON.stringify(
+    createBackupObject(),
+    null,
+    2
+  );
+
+}
+
+
+function createBackupFilename(){
+
+  const d =
+    new Date();
+
+
+  const year =
+    d.getFullYear();
+
+
+  const month =
+    String(d.getMonth()+1)
+      .padStart(2,"0");
+
+
+  const day =
+    String(d.getDate())
+      .padStart(2,"0");
+
+
+  return `PM-App-backup-${year}-${month}-${day}.json`;
+
+}
+
+
+/* =========================================================
+   CONDIVIDI
+========================================================= */
+
+async function shareBackupFile(){
+
+  try{
 
     const json =
-        JSON.stringify(
-            data,
-            null,
-            2
-        );
+      createBackupJson();
 
 
     const blob =
-        new Blob(
-            [json],
-            {
-                type:
-                    "application/json"
-            }
-        );
+      new Blob(
+        [json],
+        {
+          type:
+            "application/json;charset=utf-8"
+        }
+      );
 
-
-    const url =
-        URL.createObjectURL(blob);
-
-
-    const link =
-        document.createElement("a");
-
-
-    link.href = url;
-
-    link.download =
-        "Portal-App-aggiornamento.portal.json";
-
-
-    link.click();
-
-
-    URL.revokeObjectURL(url);
-
-}
-
-
-/* =========================
-   IMPORT
-========================= */
-
-function importData(event) {
 
     const file =
-        event.target.files[0];
-
-
-    if (!file) return;
-
-
-    const reader =
-        new FileReader();
-
-
-    reader.onload =
-        function() {
-
-            try {
-
-                data =
-                    JSON.parse(
-                        reader.result
-                    );
-
-
-                data.selectedSong = 0;
-
-
-                render();
-
-
-                alert(
-                    "Aggiornamento importato!"
-                );
-
-            }
-
-            catch {
-
-                alert(
-                    "Il file non è valido."
-                );
-
-            }
-
-        };
-
-
-    reader.readAsText(file);
-
-}
-
-
-/* =========================
-   CALENDARIO
-========================= */
-
-function toggleCalendar() {
-
-    const calendar =
-        document.getElementById(
-            "calendar"
-        );
-
-
-    calendar.classList.toggle(
-        "visible"
-    );
-
-
-    if (
-        calendar.classList.contains(
-            "visible"
-        )
-    ) {
-
-        renderCalendar();
-
-    }
-
-}
-
-
-function renderCalendar() {
-
-    const now =
-        new Date();
-
-
-    const year =
-        now.getFullYear();
-
-
-    const month =
-        now.getMonth();
-
-
-    const monthName =
-        now.toLocaleString(
-            "it-IT",
-            {
-                month: "long",
-                year: "numeric"
-            }
-        );
-
-
-    document.getElementById(
-        "calendarTitle"
-    ).textContent =
-        monthName;
-
-
-    const firstDay =
-        new Date(
-            year,
-            month,
-            1
-        ).getDay();
-
-
-    const days =
-        new Date(
-            year,
-            month + 1,
-            0
-        ).getDate();
-
-
-    let html = "";
-
-
-    const weekDays =
-        [
-            "L",
-            "M",
-            "M",
-            "G",
-            "V",
-            "S",
-            "D"
-        ];
-
-
-    weekDays.forEach(
-        day => {
-
-            html +=
-                `<div>
-                    <strong>
-                        ${day}
-                    </strong>
-                </div>`;
-
+      new File(
+        [blob],
+        createBackupFilename(),
+        {
+          type:
+            "application/json"
         }
+      );
+
+
+    if(
+      navigator.share &&
+      navigator.canShare &&
+      navigator.canShare({
+        files:[file]
+      })
+    ){
+
+      await navigator.share({
+
+        title:
+          "Backup PM-App",
+
+        text:
+          "Backup completo di PM-App",
+
+        files:[
+          file
+        ]
+
+      });
+
+
+      return;
+
+    }
+
+
+    if(navigator.share){
+
+      await navigator.share({
+
+        title:
+          "Backup PM-App",
+
+        text:
+          json
+
+      });
+
+
+      return;
+
+    }
+
+
+    alert(
+      "La condivisione non è disponibile su questo dispositivo/browser."
     );
 
 
-    let offset =
-        firstDay === 0
-            ? 6
-            : firstDay - 1;
+  }catch(error){
 
+    console.error(error);
 
-    for (
-        let i = 0;
-        i < offset;
-        i++
-    ) {
+    if(error.name !== "AbortError"){
 
-        html +=
-            "<div></div>";
+      alert(
+        "Non è stato possibile condividere il backup."
+      );
 
     }
 
-
-    for (
-        let day = 1;
-        day <= days;
-        day++
-    ) {
-
-        const isToday =
-            day === now.getDate();
-
-
-        html += `
-
-            <div
-                class="${isToday ? "today" : ""}">
-                ${day}
-            </div>
-
-        `;
-
-    }
-
-
-    document.getElementById(
-        "calendarGrid"
-    ).innerHTML =
-        html;
+  }
 
 }
 
 
-/* AVVIO */
+function shareData(){
 
-render();
+  shareBackupFile();
+
+}
+
+
+/* =========================================================
+   IMPORT BACKUP
+========================================================= */
+
+function handleImportFile(event){
+
+  const file =
+    event.target.files?.[0];
+
+
+  if(!file){
+    return;
+  }
+
+
+  const reader =
+    new FileReader();
+
+
+  reader.onload = ()=>{
+
+    try{
+
+      const parsed =
+        JSON.parse(
+          reader.result
+        );
+
+
+      importBackupObject(
+        parsed
+      );
+
+
+    }catch(error){
+
+      console.error(error);
+
+      alert(
+        "Il file non è un JSON valido."
+      );
+
+    }finally{
+
+      event.target.value = "";
+
+    }
+
+  };
+
+
+  reader.onerror = ()=>{
+
+    alert(
+      "Impossibile leggere il file."
+    );
+
+    event.target.value = "";
+
+  };
+
+
+  reader.readAsText(file);
+
+}
+
+
+function importBackupObject(parsed){
+
+  let imported;
+
+
+  if(
+    parsed &&
+    parsed.app === "PM-App" &&
+    parsed.data
+  ){
+
+    imported =
+      parsed.data;
+
+  }else if(
+    parsed &&
+    Array.isArray(parsed.songs)
+  ){
+
+    imported =
+      parsed;
+
+  }else{
+
+    alert(
+      "Backup non riconosciuto."
+    );
+
+    return;
+
+  }
+
+
+  const normalized =
+    normalizeData(
+      imported
+    );
+
+
+  const songsCount =
+    normalized.songs.length;
+
+
+  const sectionsCount =
+    normalized.songs.reduce(
+      (total,song)=>
+        total + song.sections.length,
+      0
+    );
+
+
+  const tasksCount =
+    normalized.songs.reduce(
+      (total,song)=>
+        total +
+        song.sections.reduce(
+          (sectionTotal,section)=>
+            sectionTotal +
+            section.tasks.length,
+          0
+        ),
+      0
+    );
+
+
+  const eventsCount =
+    normalized.events.length;
+
+
+  const notesCount =
+    normalized.importantNotes.length;
+
+
+  const coversCount =
+    normalized.events.filter(
+      event=>Boolean(event.cover)
+    ).length;
+
+
+  const message =
+
+`Importare questo backup?
+
+Brani: ${songsCount}
+Sezioni: ${sectionsCount}
+Attività: ${tasksCount}
+Eventi: ${eventsCount}
+Note importanti: ${notesCount}
+Copertine eventi: ${coversCount}
+
+I dati attuali verranno sostituiti.`;
+
+
+  if(!confirm(message)){
+
+    return;
+
+  }
+
+
+  data =
+    normalized;
+
+
+  selectedCalendarDate =
+    getTodayString();
+
+
+  calendarDate =
+    new Date();
+
+  calendarDate.setDate(1);
+
+
+  saveData();
+
+  renderAll();
+
+  showView("homeView");
+
+
+  alert(
+    "Importazione completata."
+  );
+
+}
+
+
+/* =========================================================
+   RENDER GENERALE
+========================================================= */
+
+function renderAll(){
+
+  renderSongList();
+
+  renderSongView();
+
+  renderHome();
+
+  renderCalendar();
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  ()=>{
+
+    renderAll();
+
+    showView("homeView");
+
+  }
+);
 
 </script>
 
